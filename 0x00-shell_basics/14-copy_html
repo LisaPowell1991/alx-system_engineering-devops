@@ -1,2 +1,2 @@
 #!/bin/bash
-cp *.html alx-system_engineering-devops
+cp -u *.html current/0x00-shell_basics/
