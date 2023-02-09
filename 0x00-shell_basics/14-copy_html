@@ -1,2 +1,2 @@
 #!/bin/bash
-cp -u *.html current/0x00-shell_basics/
+cp -u ./*.html ..
