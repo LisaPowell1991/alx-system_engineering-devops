@@ -1,6 +1,2 @@
 #!/bin/bash
-<<<<<<< HEAD
-Push-Location
-=======
-cd..
->>>>>>> db007dc07851c512737eeec08e6d993abfffc3aa
+cd -
