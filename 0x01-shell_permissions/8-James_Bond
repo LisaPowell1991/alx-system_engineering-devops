@@ -1,2 +1,2 @@
 #!/bin/bash
-chmod ug= hello
+chmod ug-rwx filename hello
