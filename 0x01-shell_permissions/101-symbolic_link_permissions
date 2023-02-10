@@ -1,2 +1,3 @@
 #!/bin/bash
-sudo chown -h vincent:staff halo
+sudo chown -h vincent:vincent hello
+sudo chown -h staff:staff hello
