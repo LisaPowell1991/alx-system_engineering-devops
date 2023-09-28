@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Using a while, if, elif and else loop to display "bad luck" for 4th loop iteration, "good luck"  for the 8th iteration, and the rest "Best School"
+
+counter=1
+
+while [ $counter -le 10 ]
+do
+	if [ $counter -eq 4 ]
+	then
+		echo "bad luck"
+	elif [ $counter -eq 8 ]
+	then
+		echo "good luck"
+	else
+		echo "Best School"
+	fi
+counter=$((counter+1))
+done
