@@ -8,13 +8,16 @@ while [ $counter -le 20 ]
 do
 	case $counter in
 	4)
-	echo "$counter bad luck from China"
+	echo $counter
+	echo "bad luck from China"
 		;;
 	9)
-	echo "$counter bad luck from Japan"
+	echo $counter
+	echo "bad luck from Japan"
 		;;
 	17)
-	echo "$counter bad luck from Italy"
+	echo $counter
+	echo "bad luck from Italy"
 		;;
 	*)
 	echo $counter
