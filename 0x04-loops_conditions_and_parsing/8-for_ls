@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Using a for loop to display files with only the part of the name after the first dash
+
+for file in *
+do
+	if [[ ! "$file" == .* && -f  "$file" ]]
+	then
+		display_name="${file#*-}"
+		echo "$display_name"
+	fi
+done
