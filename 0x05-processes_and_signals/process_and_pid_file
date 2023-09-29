@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Function to handle SIGTERM and SIGQUIT signals
+function handle_term_and_quit {
+    echo "I hate the kill command"
+    rm -f /var/run/myscript.pid
+    exit 1
+}
+
+# Function to handle SIGINT signal
+function handle_interrupt {
+    echo "Y U no love me?!"
+}
+
+# Function to handle SIGTERM signal for cleanup
+function handle_cleanup {
+    echo "Y U no love me?!"
+    rm -f /var/run/myscript.pid
+    exit 1
+}
+
+# Trap signals and execute the corresponding functions
+trap 'handle_term_and_quit' SIGTERM SIGQUIT
+trap 'handle_interrupt' SIGINT
+trap 'handle_cleanup' EXIT
+
+# Get the PID of the current script
+MY_PID=$$
+
+# Save the PID to the PID file
+echo "$MY_PID" > "/var/run/myscript.pid"
+
+# Infinite loop
+while true; do
+    echo "To infinity and beyond indefinitely"
+    sleep 2
+done
+
