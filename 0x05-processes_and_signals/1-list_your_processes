@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Display a user-oriented list of running processes with hierarchy
+
+ps auxf
