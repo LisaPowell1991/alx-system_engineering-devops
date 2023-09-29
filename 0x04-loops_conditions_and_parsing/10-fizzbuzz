@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Using a while, if, elif and else loop to display "FizzBuzz" when the number is a multiple of 3 and 5,
+# "Fizz" when the number is multiple of 3,"Buzz" when the number is multiple of 5 otherwise just the number.
+
+counter=1
+
+while [ $counter -le 100 ]
+do
+	if ((counter % 3 == 0)) && ((counter % 5 == 0))
+	then
+		echo "FizzBuzz"
+	elif ((counter % 5 == 0))
+	then
+		echo "Buzz"
+	elif ((counter % 3 == 0))
+	then
+		echo "Fizz"
+	else
+		echo $counter
+	fi
+counter=$((counter+1))
+done
