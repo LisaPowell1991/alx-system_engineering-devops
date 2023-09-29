@@ -9,7 +9,6 @@
 handle_exit()
 {
 	rm -f /var/run/myscript.pid
-	exit
 }
 
 trap 'echo "Y U no love me?!"; exit' SIGINT
