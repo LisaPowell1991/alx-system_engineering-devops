@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# isplays To infinity and beyond indefinitely and adding a sleep 2.
+# Displays To infinity and beyond indefinitely and adding a sleep 2.
 
 while true
 do
