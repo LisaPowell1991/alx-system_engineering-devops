@@ -12,7 +12,7 @@ handle_exit()
 }
 
 trap 'echo "Y U no love me?!"; exit' SIGINT
-trap 'echo "I hate the kill command"; terminator' SIGTERM
+trap 'echo "I hate the kill command"' SIGTERM
 trap 'handle_exit' SIGQUIT
 
 echo "$$" > /var/run/myscript.pid
