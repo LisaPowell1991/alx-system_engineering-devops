@@ -3,9 +3,8 @@
 #  - localhost resolves to 127.0.0.2
 #  - facebook.com resolves to 8.8.8.8
 
-cp /etc/hosts ~/hosts.bak
+cp /etc/hosts ~/hosts.new
 
-sed -i 's/127.*$/127.0.0.2 localhost/' ~/hosts.bak
-sed -i 's/157.240.11.35 facebook.com/8.8.8.8 facebook.com/' ~/hosts.bak
+sed -i 's/127.*$/127.0.0.2 localhost\n8.8.8.8 facebook.com/' ~/hosts.new
 
-cp -f ~/hosts.bak /etc/hosts
+cp -f ~/hosts.new /etc/hosts
