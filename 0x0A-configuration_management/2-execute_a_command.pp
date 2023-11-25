@@ -5,6 +5,7 @@
 # Must use pkill
 
 exec { 'killmenow':
-  command     => '/usr/bin/pkill -9 killmenow',
-  refreshonly => true,
+    command  => 'pkill -f killmenow',
+    path     => ['/bin', '/usr/bin'],
+    onlyif   => 'pgrep -f killmenow',
 }
