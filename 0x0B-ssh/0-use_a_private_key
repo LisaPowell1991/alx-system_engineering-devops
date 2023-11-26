@@ -4,6 +4,6 @@
 
 server="54.160.127.184"
 user="ubuntu"
-private_key_path="$HOME/.ssh/school"
+private_key_path="~/.ssh/school"
 
 ssh -i "$private_key_path" "$user"@"$server"
