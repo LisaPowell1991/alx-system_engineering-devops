@@ -5,36 +5,37 @@ package { 'nginx':
     ensure => installed,
 }
 
-#Ensure Nginx is running and enabled
-service { 'nginx':
-    ensure  => 'running',
-    enable  => true,
-    require => Package['nginx'],
+# Define Nginx configuration
+file { '/etc/nginx/sites-available/default':
+    ensure  => 'file',
+    content => "# Nginx configuration file
+server {
+    listen 80;
+}
+
+    # Redirect /redirect_me to the desired location with a 301 Moved Permanently
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+
+    # Set the default root to serve Hello World! at /
+    location / {
+        root /var/www/html;
+        index index.nginx-debian.html;
+    }
+}",
+  notify  => Service['nginx'],
 }
 
 # Create a basic HTML file with Hello World!
-file { '/var/www/html/index.html':
-    ensure  => file,
+file { '/var/www/html/index.nginx-debian.html':
+    ensure  => 'file',
     content => 'Hello World!',
-    require => Package['nginx'],
 }
 
-# Configure Nginx to listen on port 80
-file { '/etc/nginx/sites-available/default':
-    ensure  => file,
-    content => 'Ceci n\'est pas une page',
-    require => Package['nginx'],
+# Restart Nginx to apply changes
+service { 'nginx':
+  ensure    => 'running',
+  enable    => true,
+  subscribe => File['/etc/nginx/sites-available/default', '/var/www/html/index.nginx-debian.html'],
 }
-
-# Define a Nginx location for the 301 redirect
-nginx::resource::location { '/redirect_me':
-    ensure        => present,
-    location      => '/redirect_me',
-    server        => 'default',
-    location_cfg  => {
-         'return' => '301 http://www.example.com/destination',
-    },
-    notify        => Service['nginx'],
-    require       => Package['nginx'],
-}
-
