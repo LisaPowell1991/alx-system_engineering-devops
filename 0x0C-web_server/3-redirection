@@ -5,15 +5,28 @@
 #  You answer file should be a Bash script containing commands to automatically configure a Ubuntu machine to respect above requirements
 #  Using what you did with 1-install_nginx_web_server, write 3-redirection so that it configures a brand new Ubuntu machine to the requirements asked in this task
 
+# Install nginx on your web server
 apt-get update
-
 apt-get install -y nginx
 
-echo "Hello World!" | tee /var/www/html/index.nginx-debian.html
+# Configure Nginx to listen on port 80
+echo "server {
+    listen 80;
 
-service nginx restart
+    # Redirect /redirect_me to the desired location with a 301 Moved Permanently
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
 
-# Configure redirection within the server block
-echo -e "location /redirect_me {\n\treturn 301 https://youtu.be/dQw4w9WgXcQ;\n}" >> /etc/nginx/sites-available/default
+    # Set the default root to serve Hello World! at /
+    location / {
+        root /var/www/html;
+        index index.nginx-debian.html;
+    }
+}" > /etc/nginx/sites-available/default
 
+# Create a sample index page
+echo "Hello World!" > /var/www/html/index.nginx-debian.html
+
+# Restart Nginx to apply changes
 service nginx restart
