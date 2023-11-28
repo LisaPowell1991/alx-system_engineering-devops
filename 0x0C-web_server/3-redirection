@@ -14,6 +14,6 @@ echo "Hello World!" | tee /var/www/html/index.nginx-debian.html
 service nginx restart
 
 # Configure redirection within the server block
-echo -e "server {\n\tlocation /redirect_me {\n\t\treturn 301 https://youtu.be/dQw4w9WgXcQ;\n\t}\n}" >> /etc/nginx/sites-available/default
+echo -e "location /redirect_me {\n\treturn 301 https://youtu.be/dQw4w9WgXcQ;\n}" >> /etc/nginx/sites-available/default
 
 service nginx restart
