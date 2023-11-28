@@ -8,12 +8,10 @@
 #  As an answer file, write a Bash script that configures a new Ubuntu machine to respect above requirements (this script will be run on the server itself)
 #  You can’t use systemctl for restarting nginx
 
-apt update
+apt-get update
 
-apt install -y nginx
+apt-get install -y nginx
 
-echo "Hello World!" > /var/www/html/index.html
-
-sed -i 's/listen 80;/listen 80;/' /etc/nginx/sites-available/default
+echo "Hello World!" | tee /var/www/html/index.nginx-debian.html
 
 service nginx restart
