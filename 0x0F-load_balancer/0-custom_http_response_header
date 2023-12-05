@@ -5,37 +5,44 @@
 # The value of the custom HTTP header must be the hostname of the server Nginx is running on
 # Write 0-custom_http_response_header so that it configures a brand new Ubuntu machine to the requirements asked in this task.
 
-sudo apt-get update
+sudo apt-get -y update
 
 sudo apt-get install -y nginx
+
+sudo ufw allow 'Nginx HTTP'
+sudo mkdir -p /var/www/html /var/www/error
+sudo chmod -R 755 /var/www
+echo 'Hello World!' > /var/www/html/index.html
+echo "Ceci n'est pas une page" > /var/www/html/404.html
 
 # Define the custom header configuration
 HOSTNAME=$(hostname)
 
 # Configure nginx with custom response header, 404 page, and 301 redirect
-cat <<EOF | tee /etc/nginx/sites-available/default
-server {
-    listen 80;
-    sever_name _;
+server_config="server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+    server_name _;
 
-    root /etc/nginx/html;
-    index index.html;
+    # Add the custom HTTP header
+    add_header X-Served-By \$hostname;
 
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    location / {
+        try_files \$uri \$uri/ =404;
     }
+    if (\$request_filename ~ redirect_me){
+		rewrite ^ https://youtube.com permanent;
+	}
+	error_page 404 /404.html;
+	location = /404.html {
+		internal;
+	}
+}"
 
-    error_page 404 /404.html;
-    location = /404.html {
-        root /var/www/html;
-    }
+# Apply Nginx server configuration
+echo "$server_config" | sudo tee /etc/nginx/sites-enabled/default > /dev/null
 
-    add_header X-Served-By $HOSTNAME;
-}
-EOF
-
-# Create custom 404 page
-echo "Ceci n'est pas une page" | tee /var/www/html/404.html
-
-# Restart nginx service
-service nginx restart
+# Restart Nginx service
+sudo service nginx restart
