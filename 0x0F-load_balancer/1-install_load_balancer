@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Install and configure HAproxy on your lb-01 server.
 # Requirements:
 #  Configure HAproxy so that it sends traffic to web-01 and web-02
@@ -15,32 +15,19 @@ sudo apt-get upgrade -y
 sudo apt-get install -y haproxy
 
 # Configure HAProxy
-web_server_01="34.227.91.11:80"
-web_server_02="54.236.46.184:80"
-
-sudo tee /etc/haproxy/haproxy.cfg > /dev/null << EOF
-defaults
-    mode http
-    timeout client 1m
-    timeout connect 5s
-    timeout server 1m
-
+sudo tee /etc/haproxy/haproxy.cfg > /dev/null << 'EOF'
 frontend web
     bind *:80
+    mode http
     default_backend web_servers
-
 backend web_servers
+    mode http
     balance roundrobin
-    server 294083-web-01 $web_server_01 check
-    server 294083-web-02 $web_server_02 check
+    server 294083-web-01 34.227.91.11:80 check
+    server 294083-web-02 54.236.46.184:80 check
 EOF
-
-# Check HAProxy configuration
-sudo haproxy -c -f /etc/haproxy/haproxy.cfg
-
 # Enable HAProxy service
 sudo systemctl enable haproxy
-
 # Restart HAProxy service
 sudo systemctl restart haproxy
 
