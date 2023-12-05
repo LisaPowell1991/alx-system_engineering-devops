@@ -5,30 +5,35 @@
 # The value of the custom HTTP header must be the hostname of the server Nginx is running on
 # Write 0-custom_http_response_header so that it configures a brand new Ubuntu machine to the requirements asked in this task.
 
+# Update package list and install Nginx
 sudo apt-get -y update
-
 sudo apt-get install -y nginx
 
+# Allow Nginx through the firewall
 sudo ufw allow 'Nginx HTTP'
+
+# Create web directories and set permissions
 sudo mkdir -p /var/www/html /var/www/error
 sudo chmod -R 755 /var/www
-echo 'Hello World!' > /var/www/html/index.html
-echo "Ceci n'est pas une page" > /var/www/html/404.html
 
 # Define the custom header configuration
 HOSTNAME=$(hostname)
+CUSTOM_HEADER="add_header X-Served-By \$HOSTNAME;"
 
-# Configure nginx with custom response header, 404 page, and 301 redirect
+# Nginx server configuration
 server_config="server {
     listen 80 default_server;
     listen [::]:80 default_server;
     root /var/www/html;
     index index.html index.htm index.nginx-debian.html;
+    
+    # Corrected directive: server_name, not sever_name
     server_name _;
 
-    # Add the custom HTTP header
-    add_header X-Served-By \$hostname;
+    # Custom HTTP header
+    $CUSTOM_HEADER
 
+    # 404 page and 301 redirect
     location / {
         try_files \$uri \$uri/ =404;
     }
