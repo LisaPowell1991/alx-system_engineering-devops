@@ -1,2 +1,2 @@
- * Restarting nginx nginx
-   ...fail!
+sed: can't read /etc/nginx/sites-available/default: No such file or directory
+nginx: unrecognized service
