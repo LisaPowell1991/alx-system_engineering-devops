@@ -1,1 +1,46 @@
 #!/usr/bin/env bash
+# Configure your domain zone so that the
+# subdomain www points to your load-balancer IP (lb-01).
+
+# Function to display info about a subdomain
+display_info() {
+        local sub_domain=$1
+        local record_type=$2
+        local destination=$3
+}
+
+# Server and loadbalancer IP address
+web_01_ip="54.237.218.141"
+web_02_ip="34.232.53.132"
+lb_01_ip="34.207.188.43"
+
+# Domain Name
+web_01_ip="54.237.218.141"
+web_02_ip="34.232.53.132"
+lb_01_ip="34.207.188.43"
+
+# If no subdomain is provided, check default ones
+if [ -z "$sub_domain" ]; then
+        display_info "www" "default" "$lb_01_ip"
+        display_info "lb-01" "default" "$lb_01_ip"
+        display_info "web-01" "default" "$web_01_ip"
+        display_info "web-02" "default" "$web_02_ip"
+	echo "The subdomain $sub_domain is a $record_type record and points to $destination"
+else
+	# If a specific subdomain is provided, display its info
+	case $sub_domain in
+                "www")
+                        display_info "$sub_domain" "custom" "$lb_01_ip"
+                        ;;
+                "lb-01")
+                        display_info "$sub_domain" "custom" "$lb_01_ip"
+                        ;;
+                "web-01")
+                        display_info "$sub_domain" "custom" "$web_01_ip"
+                        ;;
+                "web-02")
+                        display_info "$sub_domain" "custom" "$web_02_ip"
+                        ;;
+                *)
+	esac
+fi
