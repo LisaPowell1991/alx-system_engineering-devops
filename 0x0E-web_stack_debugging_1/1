@@ -1,2 +1,5 @@
-cp: cannot stat '/etc/nginx/sites-available/default': No such file or directory
-nginx: unrecognized service
+cp: missing destination file operand after '/etc/nginx/sites-available/default'
+Try 'cp --help' for more information.
+./0-nginx_likes_port_80: line 7: /etc/nginx/sites-available/default: Permission denied
+ * Restarting nginx nginx
+   ...done.
