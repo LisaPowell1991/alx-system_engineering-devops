@@ -18,8 +18,8 @@ add_subdomain() {
     local domain=$1
     local sub_domain=$2
     local ip_address=$3
-    echo "$sub_domain.$domain $ip_address" >> /etc/hosts
-}
+    echo "$ip_address $sub_domain.$domain $sub_domain" >> /etc/hosts
+    }
 
 # Server and load balancer IP addresses
 web_01_ip="54.237.218.141"
@@ -45,17 +45,8 @@ if [ -z "$sub_domain" ]; then
 else
     # If a specific subdomain is provided, display its info
     case $sub_domain in
-        "www")
-            display_info "$sub_domain" "A" "$(get_ip_address www.$domain)"
-            ;;
-        "lb-01")
-            display_info "$sub_domain" "A" "$(get_ip_address lb-01.$domain)"
-            ;;
-        "web-01")
-            display_info "$sub_domain" "A" "$(get_ip_address web-01.$domain)"
-            ;;
-        "web-02")
-            display_info "$sub_domain" "A" "$(get_ip_address web-02.$domain)"
+        "www" | "lb-01" | "web-01" | "web-02")
+            display_info "$sub_domain" "A" "$(get_ip_address $sub_domain.$domain)"
             ;;
         *)
     esac
