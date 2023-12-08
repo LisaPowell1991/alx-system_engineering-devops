@@ -18,8 +18,8 @@ add_subdomain() {
     local domain=$1
     local sub_domain=$2
     local ip_address=$3
-    echo "$ip_address $sub_domain.$domain $sub_domain" >> /etc/hosts
-    }
+    echo "$ip_address $sub_domain.$domain" >> /etc/hosts
+}
 
 # Server and load balancer IP addresses
 web_01_ip="54.237.218.141"
@@ -38,10 +38,10 @@ add_subdomain $domain "web-02" "$web_02_ip"
 
 # If no subdomain is provided, check default ones
 if [ -z "$sub_domain" ]; then
-    display_info "www" "A" "$(get_ip_address www.$domain)"
-    display_info "lb-01" "A" "$(get_ip_address lb-01.$domain)"
-    display_info "web-01" "A" "$(get_ip_address web-01.$domain)"
-    display_info "web-02" "A" "$(get_ip_address web-02.$domain)"
+    subdomains=("www" "lb-01" "web-01" "web-02")
+    for sub in "${subdomains[@]}"; do
+        display_info "$sub" "A" "$(get_ip_address $sub.$domain)"
+    done
 else
     # If a specific subdomain is provided, display its info
     case $sub_domain in
@@ -49,5 +49,7 @@ else
             display_info "$sub_domain" "A" "$(get_ip_address $sub_domain.$domain)"
             ;;
         *)
+            echo "Unknown subdomain: $sub_domain"
+            ;;
     esac
 fi
