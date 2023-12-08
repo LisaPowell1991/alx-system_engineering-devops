@@ -12,7 +12,6 @@ display_info() {
 # Server and load balancer IP addresses
 web_01_ip="54.237.218.141"
 web_02_ip="34.232.53.132"
-lb_01_ip="34.207.188.43"
 
 # Domain Name
 domain=$1
@@ -20,18 +19,18 @@ sub_domain=$2
 
 # If no subdomain is provided, check default ones
 if [ -z "$sub_domain" ]; then
-    display_info "www" "A" "$lb_01_ip"
-    display_info "lb-01" "A" "$lb_01_ip"
+    display_info "www" "A" "$(dig +short www.$domain)"
+    display_info "lb-01" "A" "$(dig +short lb-01.$domain)"
     display_info "web-01" "A" "$web_01_ip"
     display_info "web-02" "A" "$web_02_ip"
 else
     # If a specific subdomain is provided, display its info
     case $sub_domain in
         "www")
-            display_info "$sub_domain" "A" "$lb_01_ip"
+            display_info "$sub_domain" "A" "$(dig +short www.$domain)"
             ;;
         "lb-01")
-            display_info "$sub_domain" "A" "$lb_01_ip"
+            display_info "$sub_domain" "A" "$(dig +short lb-01.$domain)"
             ;;
         "web-01")
             display_info "$sub_domain" "A" "$web_01_ip"
