@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#
+# The script installs and configures the Uncomplicated Firewall (ufw)
+# It blocks all incoming traffic except for specific TCP ports: 22 (SSH),
+# 80 (HTTP), and 443 (HTTPS)
+
+sudo apt update
+sudo apt install ufw
+
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+sudo ufw allow 22/tcp
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+
+sudo ufw enable
+
+sudo ufw status
