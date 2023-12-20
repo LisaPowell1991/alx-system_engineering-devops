@@ -1,1 +1,10 @@
 #!/usr/bin/env bash
+# Write a Bash script that accepts one argument
+# The script should run the whoami command
+# under the user passed as an argument.
+
+# Get the user as an arg
+user=$1
+
+# Run the whoami command as the specified user
+sudo -u "$user" whoami
