@@ -22,18 +22,24 @@ if __name__ == "__main__":
     todos_response = get(f"{base_url}/todos?userId={employee_id}")
     todos_data = todos_response.json()
 
-    # CSV file name
-    csv_filename = f"{employee_id}.csv"
-
-    # Write data to CSV file
-    with open(csv_filename, mode='w', newline='') as csv_file:
-        csv_writer = csv.writer(csv_file, quoting=csv.QUOTE_MINIMAL)
-
-        # Write todo data
-        rows = [[str(user_data['id']),
-                user_data['name'], str(todo['completed']),
-                todo['title']] for todo in todos_data]
-        csv_writer.writerows(rows)
+    # Calculate todo list progress
+    total_tasks = len(todos_data)
+    completed_tasks = sum(1 for todo in todos_data if todo['completed'])
 
     # Display progress info
-    print(f"Employee {user_data['name']} tasks exported to {csv_filename}.")
+    print(f"Employee {user_data['name']} is done with tasks"
+          f"({completed_tasks}/{total_tasks}):")
+
+    # Display and export completed tasks to CSV
+    csv_file_name = f"{employee_id}.csv"
+    with open(csv_file_name, mode='w', newline='') as csv_file:
+        csv_writer = csv.writer(csv_file)
+
+        for todo in todos_data:
+            if todo['completed']:
+                csv_writer.writerow([
+                    user_data['id'], user_data['username'],
+                    str(todo['completed']), todo['title']])
+                print(f"\t {todo['title']}")
+
+    print(f"\nData exported to {csv_file_name}")
