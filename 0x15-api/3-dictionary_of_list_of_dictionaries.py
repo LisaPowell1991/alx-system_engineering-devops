@@ -49,12 +49,3 @@ if __name__ == "__main__":
         # Write the all_tasks dictionary to a JSON file
         with open('todo_all_employees.json', 'w') as json_file:
             json.dump(all_tasks, json_file, indent=2)
-
-        # Display progress info
-        print(f"Employee {user['name']} is done with tasks"
-              f"({completed_tasks}/{total_tasks}):")
-
-    # Display completed tasks titles
-    for todo in todos_data:
-        if todo['completed']:
-            print(f"\t {todo['title']}")
