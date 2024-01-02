@@ -32,4 +32,4 @@ if __name__ == "__main__":
     # Display completed tasks titles
     for todo in todos_data:
         if todo['completed']:
-            print(f"\t{todo['title']}")
+            print(f"\t {todo['title']}")
