@@ -34,7 +34,7 @@ if __name__ == "__main__":
             todo_dict = {}
             todo_dict.update({
                 "USER_ID": employee_id,
-                "USERNAME": user_data['name'],
+                "USERNAME": user_data['username'],
                 "TASK_COMPLETED_STATUS": str(todo['completed']),
                 "TASK_TITLE": todo['title']
             })
