@@ -5,27 +5,20 @@ Using this REST API(https://jsonplaceholder.typicode.com),
 for a given employee ID, returns information about
 his/her TODO list progress.
 """
-import requests
-import sys
+from requests import get
+from sys import argv
 
 
-def get_employee_todo_progress(employee_id):
-    """
-    Get and display info about an employee's
-    TODO list progress.
-
-    Parameters:
-    - employee_id (int): The ID of the employee
-    whose progress needs to be checked.
-    """
-    base_url = "https://jsonplaceholder.typicode.com"
+if __name__ == "__main__":
+    base_url = 'https://jsonplaceholder.typicode.com'
+    employee_id = int(argv[1])
 
     # User details
-    user_response = requests.get(f"{base_url}/users/{employee_id}")
+    user_response = get(f"{base_url}/users/{employee_id}")
     user_data = user_response.json()
 
-    # User todo
-    todos_response = requests.get(f"{base_url}/todos?userId={employee_id}")
+    # User's todos
+    todos_response = get(f"{base_url}/todos?userId={employee_id}")
     todos_data = todos_response.json()
 
     # Calculate todo list progress
@@ -35,23 +28,8 @@ def get_employee_todo_progress(employee_id):
     # Display progress info
     print(f"Employee {user_data['name']} is done with tasks "
           f"({completed_tasks}/{total_tasks}):")
-    print(f"{user_data['name']}:", end=" ")
-
-    if total_tasks > 0:
-        print(f"{completed_tasks}/{total_tasks}")
-    else:
-        print("No tasks found.")
 
     # Display completed tasks titles
     for todo in todos_data:
         if todo['completed']:
             print(f"\t{todo['title']}")
-
-
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python script.py <employee_id>")
-        sys.exit(1)
-
-    employee_id = int(sys.argv[1])
-    get_employee_todo_progress(employee_id)
