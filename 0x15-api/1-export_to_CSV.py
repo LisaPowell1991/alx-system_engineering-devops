@@ -9,7 +9,6 @@ from requests import get
 from sys import argv
 import csv
 
-
 if __name__ == "__main__":
     base_url = 'https://jsonplaceholder.typicode.com'
     employee_id = int(argv[1])
@@ -22,24 +21,22 @@ if __name__ == "__main__":
     todos_response = get(f"{base_url}/todos?userId={employee_id}")
     todos_data = todos_response.json()
 
-    # Calculate todo list progress
-    total_tasks = len(todos_data)
-    completed_tasks = sum(1 for todo in todos_data if todo['completed'])
-
-    # Display progress info
-    print(f"Employee {user_data['name']} is done with tasks"
-          f"({completed_tasks}/{total_tasks}):")
-
-    # Display and export completed tasks to CSV
+    # Create CSV file
     csv_file_name = f"{employee_id}.csv"
     with open(csv_file_name, mode='w', newline='') as csv_file:
-        csv_writer = csv.writer(csv_file)
+        header = ["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"]
+        writer = csv.DictWriter(
+                csv_file, fieldnames=header, quoting=csv.QUOTE_ALL)
 
+        # Write todo data to CSV
+        todo_list = []
         for todo in todos_data:
-            if todo['completed']:
-                csv_writer.writerow([
-                    user_data['id'], user_data['username'],
-                    str(todo['completed']), todo['title']])
-                print(f"\t {todo['title']}")
-
-    print(f"\nData exported to {csv_file_name}")
+            todo_dict = {}
+            todo_dict.update({
+                "USER_ID": employee_id,
+                "USERNAME": user_data['name'],
+                "TASK_COMPLETED_STATUS": str(todo['completed']),
+                "TASK_TITLE": todo['title']
+            })
+            todo_list.append(todo_dict)
+        writer.writerows(todo_list)
