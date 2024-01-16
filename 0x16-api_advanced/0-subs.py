@@ -18,9 +18,8 @@ def number_of_subscribers(subreddit):
     int: The number of subscribers. If the subreddit is invalid,
     return 0.
     """
-
-    # Set custom User-Agent
-    headers = {'User-Agent': 'MyRedditApp/1.0 (by /u/jane_doe)'}
+    # Set custom User-Agent (consistent with main.py)
+    headers = {'User-Agent': '0x16.api.advanced:v1.0.0 (by /u/jane_doe)'}
 
     # Construct API URL
     url = 'https://www.reddit.com/r/{}/about.json'.format(subreddit)
@@ -28,7 +27,7 @@ def number_of_subscribers(subreddit):
     # Make request
     response = requests.get(url, headers=headers)
 
-    # Check if  response is successful/invalid
+    # Check if response is successful/invalid
     if response.status_code == 200:
         data = response.json()
         subscribers = data['data']['subscribers']
