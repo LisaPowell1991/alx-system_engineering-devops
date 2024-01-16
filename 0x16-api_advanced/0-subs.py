@@ -18,7 +18,7 @@ def number_of_subscribers(subreddit):
     int: The number of subscribers. If the subreddit is invalid,
     return 0.
     """
-    # Set custom User-Agent (consistent with main.py)
+    # Set custom User-Agent
     headers = {'User-Agent': '0x16.api.advanced:v1.0.0 (by /u/jane_doe)'}
 
     # Construct API URL
