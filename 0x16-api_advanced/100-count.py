@@ -28,8 +28,13 @@ def count_words(subreddit, word_list, after=None, counts={}):
     headers = {'User-Agent': 'alx-lisa-api:v1.0.0 (by /u/CaptainDiligent877'}
     response = requests.get(url, params=params, headers=headers)
 
+    data = {}
+
     if response.status_code == 200:
         data = response.json()
+    else:
+        print("Invalid subreddit:{}".format(subreddit))
+        return
 
     for post in data['data']['children']:
         title = post['data']['title'].lower()
