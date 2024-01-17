@@ -22,8 +22,8 @@ def number_of_subscribers(subreddit):
     headers = {'User-Agent': 'alx-lisa-api:v1.0.0 (by /u/CaptainDiligent877'}
 
     # Construct API URL
-    url = 'https://www.reddit.com/r/{}/about.json'.format(subreddit)
-
+    url = 'https://www.reddit.com/r/programming/hot.json'
+     
     # Make request
     response = requests.get(url, headers=headers)
 
