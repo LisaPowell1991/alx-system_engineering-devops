@@ -22,23 +22,21 @@ def top_ten(subreddit):
     Or None if the subreddit is invalid
     """
     # Set custom User-Agent
-    headers = {'User-Agent': 'alx-lisa-api:v1.0.0 (by /u/CaptainDiligent877'}
+    headers = {'User-Agent':
+               'linux:0x16.api.advanced:v1.0.0 (by /u/CaptainDiligent877)'}
 
     # Construct API URL for hot posts
     url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
-    params = { "limit": 10 }
+    params = {"limit": 10}
 
     # Make request
     response = requests.get(url, headers=headers, params=params)
 
     # Check if response is successful/invalid
     if response.status_code == 200:
-        posts_data = response.json().get('data', {}).get('children', [])
-
-        # Check if subreddit exists
-        for post in post_data:
-            print(post['data']['title'])
-    elif response.status_code == 404:
-        print('None')
+        for get_data in req.json().get("data").get("children"):
+            dat = get_data.get("data")
+            title = dat.get("title")
+            print(title)
     else:
-        print('None')
+        print(None)
