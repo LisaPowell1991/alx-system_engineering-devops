@@ -47,7 +47,7 @@ server {
 
         # Serve /airbnb-onepage/ route from AirBnB_clone_v2
         location = /airbnb-onepage/ {
-                proxy_pass http://0.0.0.0:/airbnb-onepage;
+                proxy_pass http://0.0.0.0/airbnb-onepage;
     }
 		location / {
                 # First attempt to serve request as file, then
