@@ -1,0 +1,45 @@
+# Gunicorn server for the Flask app on port 5003
+upstream app_server_djangoapp {
+    server 127.0.0.1:5003 fail_timeout=0;
+}
+
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name 34.234.204.17;
+
+    # Customise HTTP response header
+    add_header X-Served-By 294083-web-01;
+
+    # Serve /airbnb-onepage/ route from AirBnB_clone_v2
+    location = /airbnb-onepage/ {
+        proxy_pass http://0.0.0.0/airbnb-onepage;
+    }
+
+     # Serve /number_odd_or_even/ route on AirBnB_clone_v2
+    location ~ /airbnb-dynamic/number_odd_or_even/(\d+)$ {
+        proxy_pass http://127.0.0.1:5001/number_odd_or_even/$1;
+    }
+
+    # Serve AirBnB_clone_v3 API
+    location /api {
+        proxy_pass http://127.0.0.1:5002/api;
+    }
+
+    # Configure /2-hbnb route of AirBnB_clone_v4 as root location
+    location / {
+        proxy_pass http://127.0.0.1:5003/2-hbnb;
+        try_files $uri $uri/ =404;
+    }
+
+    # 404 error page
+    error_page 404 /404.html;
+    location /404 {
+        root /var/www/html;
+        internal;
+    }
+}
