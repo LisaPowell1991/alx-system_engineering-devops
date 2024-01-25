@@ -5,12 +5,12 @@
 
 # Increase limit
 exec { 'increase_limit':
-  command => "sed -i 's/# maxconn = 1024/maxconn = 65536/' /etc/default/nginx",
+  command => "sed -i 's/15/4096/' /etc/default/nginx",
   path    => '/bin:/usr/bin',
 }
 
 # Restart Nginx
 exec { 'restart_nginx':
   command => 'nginx restart',
-  path    => '/etc/init.d/'
+  path    => '/etc/init.d/',
 }
